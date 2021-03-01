@@ -33,6 +33,11 @@ public class Postagem {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date data = new java.sql.Date(System.currentTimeMillis()); // capturar a data hr o seg e mil
 
+	@ManyToOne
+	@JsonIgnoreProperties("postagens")
+	private Tema tema;
+	
+	
 	public long getId() {
 		return id;
 	}

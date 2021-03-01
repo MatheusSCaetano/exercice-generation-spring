@@ -36,11 +36,11 @@ public class UsuarioService {
 			if(encoder.matches(user.get().getSenha(), usuario.get().getSenha())) {//matches está verificando se as senhas encriptadas são iguais
 				String auth = user.get().getUsuario()+":"+user.get().getSenha();
 				byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
-				String authHeader= "Basic"+ new String(encodedAuth);
+				String authHeader= "Basic "+ new String(encodedAuth);
 				
 				user.get().setToken(authHeader);//passando a criptografia basica - outro modelo de criptografia de token
 				user.get().setNome(usuario.get().getNome());
-				
+				//seto o token e o nome para conseguir atribuir informação ao useLogin q está ativo no momento do login
 				return user;
 						}
 			}
