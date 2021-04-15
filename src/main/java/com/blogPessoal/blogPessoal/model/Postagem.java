@@ -23,11 +23,11 @@ public class Postagem {
 	private long id;
 
 	@NotNull
-	@Size(min = 5, max = 100)
+	@Size(max = 500)
 	private String titulo;
 
 	@NotNull
-	@Size(min = 10, max = 500)
+	@Size(max = 500)
 	private String texto;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -36,6 +36,10 @@ public class Postagem {
 	@ManyToOne
 	@JsonIgnoreProperties("postagens")
 	private Tema tema;
+	
+	@ManyToOne
+	@JsonIgnoreProperties("postagens")
+	private Usuario usuario;
 	
 	
 	public long getId() {
@@ -62,12 +66,28 @@ public class Postagem {
 		this.texto = texto;
 	}
 
-	public Date getDate() {
+	public Date getData() {
 		return data;
 	}
 
-	public void setDate(Date data) {
+	public void setData(Date data) {
 		this.data = data;
+	}
+
+	public Tema getTema() {
+		return tema;
+	}
+
+	public void setTema(Tema tema) {
+		this.tema = tema;
+	}
+	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 }

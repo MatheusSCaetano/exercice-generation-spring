@@ -2,6 +2,7 @@ package com.blogPessoal.blogPessoal.seguranca;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,7 +19,8 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService); //loadByusuario e verifica se possui um cliente autenticado - UserDetailService
+		auth.userDetailsService(userDetailsService); 
+		//loadByusuario e verifica se possui um cliente autenticado - UserDetailService
 	}
 	
 	@Bean// usado quando você precisa explicitamente configurar o bean ao invés de deixar o spring automaticamente fazer. 
@@ -29,8 +31,11 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception{
 		http.authorizeRequests()
+		.antMatchers("/**").permitAll() 
 		.antMatchers("/usuarios/logar").permitAll()//liberar alguns caminhos do meu controller para o client não precisar de tokens e tenha acesso
 		.antMatchers("/usuarios/cadastrar").permitAll()//tanto cadastrar quanto logar serão liberados dentro da API
+		.antMatchers(HttpMethod.GET ,"/postagens").permitAll()
+		.antMatchers(HttpMethod.GET ,"/tema").permitAll()
 		.anyRequest().authenticated()// as demais requisições precisaram de token - deverão ser atenticadas
 		.and().httpBasic() // utilizar o padrão basic para gerar a chave token
 		.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //indicar qual o tipo de sessão que vamos utilizar | sessonCreation -> não vai guardar sessão(stateless)

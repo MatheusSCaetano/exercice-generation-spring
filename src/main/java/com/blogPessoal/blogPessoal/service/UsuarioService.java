@@ -1,6 +1,7 @@
 package com.blogPessoal.blogPessoal.service;
 
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.codec.binary.Base64;
@@ -39,7 +40,10 @@ public class UsuarioService {
 				String authHeader= "Basic "+ new String(encodedAuth);
 				
 				user.get().setToken(authHeader);//passando a criptografia basica - outro modelo de criptografia de token
+				user.get().setId(usuario.get().getId());
 				user.get().setNome(usuario.get().getNome());
+				user.get().setFoto(usuario.get().getFoto());
+				user.get().setTipo(usuario.get().getTipo());
 				//seto o token e o nome para conseguir atribuir informação ao useLogin q está ativo no momento do login
 				return user;
 						}
@@ -48,4 +52,17 @@ public class UsuarioService {
 		return null;
 	}
 	
+	public List<Usuario> findAll(){
+		return repository.findAll();
+	}
+	
+	public Usuario findById(Long id){
+		return repository.findById(id)
+				.map(resp->(resp))
+				.orElse(null);
+	}
+	
+	public Usuario atualizarUser(Usuario usuario) {
+		return repository.save(usuario);
+	}
 }
